@@ -15,6 +15,7 @@ dotenv.config({ path: './config.env' });
 const DB = process.env.DATABASE;
 
 // middleware
+app.use(express.json());
 app.use(authRouter);
 
 // Connections
