@@ -31,6 +31,7 @@ class AuthService {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
+
       httpErrorHandle(
         response: res,
         context: context,
@@ -41,6 +42,7 @@ class AuthService {
       );
     } catch (e) {
       showSnackBar(context, e.toString());
+      debugPrint(e.toString());
     }
   }
 }

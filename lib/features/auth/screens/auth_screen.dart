@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:amazon_node/constants/global_variables.dart';
 import 'package:amazon_node/common/widgets/custom_textfield.dart';
 import 'package:amazon_node/common/widgets/custom_button.dart';
+import 'package:amazon_node/features/auth/services/auth_service.dart';
 
 enum Auth {
   signin,
@@ -20,17 +21,27 @@ class _AuthScreenState extends State<AuthScreen> {
   Auth _auth = Auth.signup;
   final _signUpFormKey = GlobalKey<FormState>();
   final _signInFormKey = GlobalKey<FormState>();
+  final AuthService authService = AuthService();
 
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
-    _passwordController.dispose();
     _nameController.dispose();
+    _passwordController.dispose();
+  }
+
+  void signUpUser() {
+    authService.signUpUser(
+      context: context,
+      email: _emailController.text,
+      name: _nameController.text,
+      password: _passwordController.text,
+    );
   }
 
   Widget build(BuildContext context) {
@@ -101,7 +112,11 @@ class _AuthScreenState extends State<AuthScreen> {
                         ),
                         CustomButton(
                           text: 'Sign Up',
-                          onTap: () {},
+                          onTap: () {
+                            if (_signUpFormKey.currentState!.validate()) {
+                              signUpUser();
+                            }
+                          },
                         ),
                       ],
                     ),
